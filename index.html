@@ -370,7 +370,7 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
 /* ── RESPONSIVE ── */
 @media(max-width:1100px){#sb{width:180px}.sg{grid-template-columns:repeat(2,1fr)}.pg2{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){#sb{display:none}#mn{padding:16px 14px}.g2{grid-template-columns:1fr}.sg{grid-template-columns:repeat(2,1fr)}.t-nav{display:none}.pg2{grid-template-columns:1fr}}
-@media(max-width:600px){.sg{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr}.g4{grid-template-columns:1fr 1fr}.g-plan-row{grid-template-columns:1fr}}
+@media(max-width:600px){.sg{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr}.g4{grid-template-columns:1fr 1fr}.g-plan-row{grid-template-columns:1fr}.pg2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -395,25 +395,25 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
    Chat Raja on WhatsApp — Get Your Key
   </button>
 
-  <div class="g-plans-ttl">Daily-Based Plans</div>
-  <div class="g-plan-row">
-   <div class="g-plan">
-    <div class="g-plan-n" style="color:var(--mt)">Basic</div>
-    <div class="g-plan-p">$10<span>/day</span></div>
-    <div class="g-plan-f">✓ 10,000 emails/day<br>✓ Without stuff<br>✓ All SMTP support</div>
-   </div>
+  <div class="g-plans-ttl">Subscription Plans</div>
+  <div class="g-plan-row" style="grid-template-columns:1fr 1fr 1fr">
    <div class="g-plan p-hot">
-    <div class="g-plan-n" style="color:var(--cyan)">Pro ★</div>
-    <div class="g-plan-p" style="color:var(--cyan)">$40<span>/day</span></div>
-    <div class="g-plan-f">✓ 10,000 emails/day<br>✓ With stuff included<br>✓ Priority support</div>
+    <div class="g-plan-n" style="color:var(--cyan)">Monthly 50K ★</div>
+    <div class="g-plan-p" style="color:var(--cyan)">$350<span>/mo</span></div>
+    <div class="g-plan-f">✓ 50,000 emails/day<br>✓ 30 days access<br>✓ Full features</div>
+   </div>
+   <div class="g-plan" style="border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.08)">
+    <div class="g-plan-n" style="color:var(--purple)">Monthly 100K</div>
+    <div class="g-plan-p" style="color:var(--purple)">$500<span>/mo</span></div>
+    <div class="g-plan-f">✓ 100,000 emails/day<br>✓ 30 days access<br>✓ Priority support</div>
    </div>
    <div class="g-plan p-ent">
-    <div class="g-plan-n" style="color:var(--gold)">Enterprise</div>
-    <div class="g-plan-p" style="color:var(--gold)">DM<span> Raja</span></div>
-    <div class="g-plan-f">✓ Custom volume<br>✓ More than 10K/day<br>✓ Full automation</div>
+    <div class="g-plan-n" style="color:var(--gold)">6-Month ★</div>
+    <div class="g-plan-p" style="color:var(--gold)">$1500<span>/6mo</span></div>
+    <div class="g-plan-f">✓ Unlimited daily<br>✓ 6 months access<br>✓ Priority support</div>
    </div>
   </div>
-  <div class="g-more">Want to send more? DM Raja for custom pricing 📩</div>
+  <div class="g-more">Need more limit? DM Raja for custom plans 📩</div>
   <div class="g-credit">Built by <b>Raja</b> &nbsp;·&nbsp; v2.0</div>
  </div>
 </div>
@@ -653,30 +653,98 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
 
    <!-- ────────────── PRICING ────────────── -->
    <div id="p-price" class="pg">
-    <div class="ph"><h1>💰 Pricing Plans</h1><p>Daily-based bulk email blasting. Purchase on WhatsApp — key delivered instantly.</p></div>
-    <div class="pg2">
-     <div class="pc">
-      <div class="pn">Daily Basic</div><div class="ppr">$25<span>/day</span></div><div class="ppe">10,000 emails · Without stuff</div>
-      <div class="pfl"><div class="pf2">10,000 emails per day</div><div class="pf2">All SMTP providers</div><div class="pf2">Auto-rotation</div><div class="pf2">AI subject generator</div><div class="pf2">Recipient .txt import</div><div class="pf2">Campaign history</div></div>
-      <button class="btn btn-g full" onclick="goWA()">💬 Buy on WhatsApp</button>
-     </div>
+    <div class="ph"><h1>💰 Pricing Plans</h1><p>Fixed pricing. No hidden fees. Purchase on WhatsApp — key delivered instantly.</p></div>
+
+    <!-- Monthly plans grid -->
+    <div style="font-size:11px;font-weight:700;color:var(--mt);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px">📅 Monthly Subscriptions</div>
+    <div class="pg2" style="grid-template-columns:1fr 1fr 1fr">
+
      <div class="pc hot">
-      <div class="pbdg"><span class="badge bb">POPULAR</span></div>
-      <div class="pn" style="color:var(--cyan)">Daily Pro</div><div class="ppr" style="color:var(--cyan)">$110<span>/day</span></div><div class="ppe">50,000 emails · With stuff</div>
-      <div class="pfl"><div class="pf2">Everything in Basic</div><div class="pf2">With stuff included</div><div class="pf2">AI message generator</div><div class="pf2">Blast schedules</div><div class="pf2">Priority support</div><div class="pf2">Invoice generation</div></div>
-      <button class="btn btn-c full" onclick="goWA()">💬 Buy on WhatsApp</button>
+      <div class="pbdg"><span class="badge bb">BEST VALUE</span></div>
+      <div class="pn" style="color:var(--cyan)">Monthly · 50K/day</div>
+      <div class="ppr" style="color:var(--cyan)">$350<span>/mo</span></div>
+      <div class="ppe">50,000 emails/day · 30 days</div>
+      <div class="pfl">
+       <div class="pf2">50,000 emails per day</div>
+       <div class="pf2">30 days full access</div>
+       <div class="pf2">All SMTP providers</div>
+       <div class="pf2">AI subject + body generator</div>
+       <div class="pf2">Blast schedules (daily/monthly)</div>
+       <div class="pf2">Invoice generation</div>
+       <div class="pf2">Campaign history &amp; stats</div>
+       <div class="pf2">WhatsApp support</div>
+      </div>
+      <button class="btn btn-c full" onclick="goWA()">💬 Buy $350/mo on WhatsApp</button>
      </div>
+
+     <div class="pc" style="border-color:rgba(139,92,246,.4);background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(37,99,235,.07))">
+      <div class="pbdg"><span class="badge bpu">POWER</span></div>
+      <div class="pn" style="color:var(--purple)">Monthly · 100K/day</div>
+      <div class="ppr" style="color:var(--purple)">$500<span>/mo</span></div>
+      <div class="ppe">100,000 emails/day · 30 days</div>
+      <div class="pfl">
+       <div class="pf2">100,000 emails per day</div>
+       <div class="pf2">30 days full access</div>
+       <div class="pf2">All SMTP providers</div>
+       <div class="pf2">AI subject + body generator</div>
+       <div class="pf2">Blast schedules (daily/monthly)</div>
+       <div class="pf2">Invoice generation</div>
+       <div class="pf2">Campaign history &amp; stats</div>
+       <div class="pf2">Priority WhatsApp support</div>
+      </div>
+      <button class="btn btn-pu full" onclick="goWA()">💬 Buy $500/mo on WhatsApp</button>
+     </div>
+
      <div class="pc ent">
-      <div class="pbdg"><span class="badge bgo">CUSTOM</span></div>
-      <div class="pn" style="color:var(--gold)">Enterprise</div><div class="ppr" style="color:var(--gold)">DM<span> for price</span></div><div class="ppe">Send more than 10K/day</div>
-      <div class="pfl"><div class="pf2">Custom daily volume</div><div class="pf2">Dedicated infra</div><div class="pf2">Server-side scheduling</div><div class="pf2">Custom key management</div><div class="pf2">24/7 WhatsApp support</div><div class="pf2">Monthly automation</div></div>
-      <button class="btn btn-go full" onclick="goWA()">💬 DM Raja for Details</button>
+      <div class="pbdg"><span class="badge bgo">6 MONTHS</span></div>
+      <div class="pn" style="color:var(--gold)">6-Month · Unlimited</div>
+      <div class="ppr" style="color:var(--gold)">$1500<span>/6mo</span></div>
+      <div class="ppe">Unlimited daily · 6 months access</div>
+      <div class="pfl">
+       <div class="pf2">Unlimited emails per day</div>
+       <div class="pf2">6 full months access</div>
+       <div class="pf2">All SMTP providers</div>
+       <div class="pf2">AI subject + body generator</div>
+       <div class="pf2">Blast schedules automation</div>
+       <div class="pf2">Invoice generation</div>
+       <div class="pf2">Full dashboard access</div>
+       <div class="pf2">24/7 priority WhatsApp support</div>
+      </div>
+      <button class="btn btn-go full" onclick="goWA()">💬 Buy $1500/6mo on WhatsApp</button>
      </div>
+
     </div>
-    <div class="card">
+
+    <!-- Compare table -->
+    <div class="card mb16">
+     <div class="ct">Plan Comparison</div>
+     <table class="tbl">
+      <thead><tr><th>Feature</th><th style="color:var(--cyan)">Monthly $350</th><th style="color:var(--purple)">Monthly $500</th><th style="color:var(--gold)">6-Month $1500</th></tr></thead>
+      <tbody>
+       <tr><td class="tw2 fw7">Daily Email Limit</td><td class="tcy mono fw7">50,000</td><td style="color:var(--purple)" class="mono fw7">100,000</td><td class="tgo mono fw7">Unlimited</td></tr>
+       <tr><td class="tw2 fw7">Access Duration</td><td class="tm">30 days</td><td class="tm">30 days</td><td class="tm">180 days</td></tr>
+       <tr><td class="tw2 fw7">All SMTP Providers</td><td class="tg2">✓</td><td class="tg2">✓</td><td class="tg2">✓</td></tr>
+       <tr><td class="tw2 fw7">AI Generator</td><td class="tg2">✓</td><td class="tg2">✓</td><td class="tg2">✓</td></tr>
+       <tr><td class="tw2 fw7">Blast Schedules</td><td class="tg2">✓</td><td class="tg2">✓</td><td class="tg2">✓</td></tr>
+       <tr><td class="tw2 fw7">Invoice Generator</td><td class="tg2">✓</td><td class="tg2">✓</td><td class="tg2">✓</td></tr>
+       <tr><td class="tw2 fw7">WhatsApp Support</td><td class="tm">Standard</td><td style="color:var(--purple)">Priority</td><td class="tgo">24/7 Priority</td></tr>
+      </tbody>
+     </table>
+    </div>
+
+    <!-- More limit CTA -->
+    <div class="card" style="background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(6,182,212,.07));border-color:rgba(37,99,235,.4)">
      <div class="fb">
-      <div><div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:4px">Want more than 10,000 emails/day?</div><div class="tm" style="font-size:13px">DM Raja on WhatsApp for custom volume, enterprise plans and monthly packages.</div></div>
-      <button class="btn btn-wa" style="flex-shrink:0;margin-left:20px" onclick="goWA()">💬 DM for More Details</button>
+      <div>
+       <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:6px">Need more than 100K emails/day?</div>
+       <div class="tm" style="font-size:13px">DM Raja on WhatsApp for custom volume, dedicated infra and enterprise packages.</div>
+       <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+        <span class="badge bb">Monthly billing</span>
+        <span class="badge bg">Instant key delivery</span>
+        <span class="badge bgo">PayPal &amp; Bitcoin accepted</span>
+       </div>
+      </div>
+      <button class="btn btn-wa" style="flex-shrink:0;margin-left:20px;padding:13px 22px" onclick="goWA()">💬 DM for More Details</button>
      </div>
     </div>
    </div>
@@ -751,7 +819,7 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
        <div class="fg"><label class="fl">Key Value</label><div class="fc g8"><input type="text" id="nk-v" placeholder="XXXX-XXXX-XXXX" style="flex:1"><button class="btn btn-g sm" onclick="genK()">🎲 Gen</button></div></div>
        <div class="fg"><label class="fl">Label (Customer Name)</label><input type="text" id="nk-l" placeholder="e.g. John Smith"></div>
        <div class="fr">
-        <div class="fg"><label class="fl">Plan</label><select id="nk-p"><option value="basic">Basic (500/day)</option><option value="pro">Pro (10K/day)</option><option value="ultimate">Ultimate (Unlimited)</option></select></div>
+        <div class="fg"><label class="fl">Plan</label><select id="nk-p"><option value="monthly">Monthly 50K ($350/mo)</option><option value="monthly100">Monthly 100K ($500/mo)</option><option value="sixmonth">6-Month Unlimited ($1500)</option></select></div>
         <div class="fg"><label class="fl">Daily Limit</label><input type="number" id="nk-lm" value="500"></div>
        </div>
        <div class="fg"><label class="fl">Expiry Date</label><input type="date" id="nk-e" value="2099-12-31"></div>
@@ -793,11 +861,11 @@ const C={
    DEFAULT KEYS
 ═══════════════════════════════════════════ */
 const DK=[
-  {key:'DEMO-FREE-0000',plan:'basic',   expires:'2099-12-31',lim:500,   label:'Demo Key',  on:true},
-  {key:'PRO-RAJA-7X9K', plan:'pro',     expires:'2099-12-31',lim:10000, label:'Pro Key',   on:true},
-  {key:'MASTER-ADM-01', plan:'ultimate',expires:'2099-12-31',lim:99999, label:'Master Key',on:true},
+  {key:'DEMO-FREE-0000',plan:'monthly',  expires:'2099-12-31',lim:50000,  label:'Demo Key',   on:true},
+  {key:'PRO-RAJA-7X9K', plan:'monthly100',expires:'2099-12-31',lim:100000, label:'100K Key',  on:true},
+  {key:'MASTER-ADM-01', plan:'sixmonth', expires:'2099-12-31',lim:9999999, label:'Master Key', on:true},
 ];
-const PLANS={basic:{name:'Basic',lim:500,clr:'var(--mt)'},pro:{name:'Pro',lim:10000,clr:'var(--cyan)'},ultimate:{name:'Ultimate',lim:99999,clr:'var(--gold)'}};
+const PLANS={monthly:{name:'Monthly 50K',lim:50000,clr:'var(--cyan)'},monthly100:{name:'Monthly 100K',lim:100000,clr:'var(--purple)'},sixmonth:{name:'6-Month Unlimited',lim:9999999,clr:'var(--gold)'}};
 const SMTP_PRE={gmail_app:{host:'smtp.gmail.com',port:587,label:'Gmail App Password'},gmail_api:{host:'smtp.gmail.com',port:587,label:'Gmail API'},gmail:{host:'smtp.gmail.com',port:587,label:'Gmail SMTP'},yahoo:{host:'smtp.mail.yahoo.com',port:587,label:'Yahoo Mail'},icloud:{host:'smtp.mail.me.com',port:587,label:'iCloud Mail'},ms365:{host:'smtp.office365.com',port:587,label:'Microsoft 365'},aws_ses:{host:'email-smtp.us-east-1.amazonaws.com',port:587,label:'AWS SES'},sendgrid:{host:'smtp.sendgrid.net',port:587,label:'SendGrid'},mailgun:{host:'smtp.mailgun.org',port:587,label:'Mailgun'},custom:{host:'',port:587,label:'Custom SMTP'}};
 const AI_S=['Important update for your account','Quick question for you','Your request has been processed','Action required: verify your details','A personal note from our team','Your order confirmation is ready','One quick thing before you go','Exclusive update — please review'];
 const AI_L=['🤖 Crafting your email<span class="ai-d"></span>','✍️ Writing spam-safe copy<span class="ai-d"></span>','🎯 Personalising content<span class="ai-d"></span>','📨 Polishing deliverability<span class="ai-d"></span>'];
