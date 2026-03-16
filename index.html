@@ -342,7 +342,6 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
 .akm{font-size:10px;color:var(--mt);width:100%;margin-top:-2px}
 
 /* ── INV PREVIEW ── */
-#inv-p{background:#fff;color:#111;border-radius:var(--rl);padding:28px;font-family:Georgia,serif;font-size:13px;overflow-y:auto;max-height:580px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
 
 /* ── WA FLOAT ── */
 #waf{position:fixed;bottom:26px;right:26px;z-index:998;width:54px;height:54px;border-radius:50%;background:var(--wa);color:#fff;border:none;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(34,197,94,.55);cursor:pointer;transition:all .2s}
@@ -436,7 +435,6 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
    <button class="t-btn" data-p="camp">Campaigns</button>
    <button class="t-btn" data-p="smtp">SMTP Config</button>
    <button class="t-btn" data-p="price">Pricing</button>
-   <button class="t-btn" data-p="inv">Invoice</button>
    <button class="t-btn" data-p="adm">⚙ Admin</button>
   </nav>
   <div class="t-sp"></div>
@@ -461,7 +459,6 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
    <div class="ns">Tools</div>
    <div class="ni" data-p="smtp"><span class="ni-ic">⚙️</span>SMTP / API Config</div>
    <div class="ni" data-p="price"><span class="ni-ic">💰</span>Pricing</div>
-   <div class="ni" data-p="inv"><span class="ni-ic">🧾</span>Invoice</div>
    <div class="ni" data-p="set"><span class="ni-ic">🔧</span>Settings</div>
    <div class="ns">Admin</div>
    <div class="ni" data-p="adm"><span class="ni-ic">🛡</span>Admin Panel</div>
@@ -513,7 +510,9 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
 
    <!-- ────────────── COMPOSE ────────────── -->
    <div id="p-compose" class="pg">
-    <div class="ph"><h1>✉️ Compose &amp; Send</h1><p>AI-powered bulk email composer with auto-rotation and spam protection</p></div>
+    <div class="ph"><h1>✉️ Compose &amp; Send</h1><p>Send bulk email campaigns or send invoices to customers — all in one place</p></div>
+
+    <!-- ═══ TAB 1: EMAIL CAMPAIGN ═══ -->
     <div class="g2">
      <div class="cl">
       <div class="card">
@@ -542,13 +541,60 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
         <textarea id="c-msg" rows="9" placeholder="Hi {name},&#10;&#10;Your message here...&#10;&#10;Best regards,&#10;{from}&#10;&#10;Variables: {name} {email} {from}"></textarea>
         <div class="ht">Variables: <b>{name}</b> · <b>{email}</b> · <b>{from}</b> — auto-personalised per recipient</div>
        </div>
+
+       <!-- ATTACHMENT PANEL -->
+       <div class="fg">
+        <div class="fb mb8">
+         <label class="fl" style="margin-bottom:0">Attachments <span class="ac">(PDF, HTML, PNG, JPG, any file)</span></label>
+         <button class="btn btn-g sm" onclick="addAttachment()">+ Add File</button>
+        </div>
+        <div id="attach-list" style="display:none;margin-bottom:8px">
+         <div id="attach-items"></div>
+        </div>
+        <div class="ib" style="font-size:11px" id="attach-hint">
+         No attachments yet. Click <b>+ Add File</b> to attach PDF, HTML, PNG, JPG, or any file type.
+        </div>
+        <div class="ht mt4">Max recommended: 5 files · 10MB total · Supported by all SMTP providers</div>
+       </div>
       </div>
       <div class="card">
        <div class="ct">Recipients</div>
-       <div class="ib mb8">One per line: <b>email@domain.com,Full Name</b> (name optional)</div>
-       <div class="fc g8 mb8"><button class="btn btn-g sm" onclick="loadRF()">📂 Load .txt File</button><span id="rf-n" class="tm" style="font-size:11px"></span></div>
+
+       <!-- File upload row -->
+       <div class="fc g8 mb8" style="flex-wrap:wrap">
+        <button class="btn btn-g sm" onclick="loadRF('txt')">📂 Load .txt</button>
+        <button class="btn btn-g sm" onclick="loadRF('csv')">📊 Load .csv</button>
+        <span id="rf-n" class="tm" style="font-size:11px;align-self:center"></span>
+       </div>
+
+       <!-- CSV column mapper (hidden until CSV loaded) -->
+       <div id="csv-mapper" style="display:none;margin-bottom:10px">
+        <div class="aip">
+         <div class="aip-t">CSV Column Mapping</div>
+         <div class="fr">
+          <div class="fg" style="margin-bottom:8px">
+           <label class="fl">Email Column</label>
+           <select id="csv-col-email" onchange="applyCSV()"></select>
+          </div>
+          <div class="fg" style="margin-bottom:8px">
+           <label class="fl">Name Column (optional)</label>
+           <select id="csv-col-name" onchange="applyCSV()"><option value="">— none —</option></select>
+          </div>
+          <div class="fg" style="margin-bottom:8px">
+           <label class="fl">Phone Column (optional)</label>
+           <select id="csv-col-phone" onchange="applyCSV()"><option value="">— none —</option></select>
+          </div>
+         </div>
+         <div class="ht" id="csv-preview-txt"></div>
+        </div>
+       </div>
+
+       <div class="ib mb8" style="font-size:11px">
+        <b>.txt format:</b> one per line — <code>email,Name</code><br>
+        <b>.csv format:</b> any columns — map email/name after loading
+       </div>
        <textarea id="c-recip" rows="6" placeholder="john@example.com,John Smith&#10;jane@gmail.com,Jane Doe&#10;bob@yahoo.com"></textarea>
-       <div class="ht">Detected: <span id="r-cnt" class="tcy fw7">0</span> recipients</div>
+       <div class="ht">Detected: <span id="r-cnt" class="tcy fw7">0</span> recipients &nbsp;·&nbsp; <button class="btn btn-g sm" onclick="clearRecip()" style="padding:2px 9px;font-size:11px">Clear</button></div>
       </div>
       <div class="card">
        <div class="fc g12 mb16"><div class="tw" onclick="togRot()"><div class="tg on" id="tg-r"></div><span>🔄 Auto-rotate senders at daily limit</span></div></div>
@@ -575,6 +621,7 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
       </div>
      </div>
     </div>
+
    </div>
 
    <!-- ────────────── SCHEDULES ────────────── -->
@@ -769,34 +816,6 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
     </div>
    </div>
 
-   <!-- ────────────── INVOICE ────────────── -->
-   <div id="p-inv" class="pg">
-    <div class="ph"><h1>🧾 Invoice Generator</h1><p>Professional invoices · PayPal + Bitcoin · TFN auto-extracted from .txt</p></div>
-    <div class="g2">
-     <div class="card">
-      <div class="ct">Invoice Details</div>
-      <div class="fg"><label class="fl">Customer Email</label><input type="email" id="iv-em" placeholder="customer@email.com"></div>
-      <div class="fg"><label class="fl">Customer Name</label><input type="text" id="iv-nm" placeholder="John Smith"></div>
-      <div class="fg"><label class="fl">Product / Service</label><input type="text" id="iv-pr" value="BulkMailer Pro - Daily Plan"></div>
-      <div class="fr">
-       <div class="fg"><label class="fl">Amount</label><input type="text" id="iv-am" value="40.00"></div>
-       <div class="fg nw"><label class="fl">Currency</label><select id="iv-cu"><option>USD</option><option>AUD</option><option>EUR</option><option>GBP</option></select></div>
-      </div>
-      <div class="fg"><label class="fl">Payment Method</label><select id="iv-pm"><option value="paypal">PayPal</option><option value="btc">Bitcoin (BTC)</option><option value="both">PayPal + Bitcoin</option></select></div>
-      <div class="fg" id="iv-bw" style="display:none"><label class="fl">BTC Wallet Address</label><input type="text" id="iv-bt" placeholder="1A1zP1..."></div>
-      <div class="dv"></div>
-      <div class="fg">
-       <label class="fl">TFN <span class="ac">(auto from .txt file)</span></label>
-       <div class="fc g8 mb8"><button class="btn btn-g sm" onclick="ldTFN()">📂 Load TFN .txt</button><span id="tfn-f" class="tm" style="font-size:11px"></span></div>
-       <input type="text" id="iv-tf" placeholder="123 456 789">
-      </div>
-      <div class="fg"><label class="fl">Send Invoice Via (Sender)</label><select id="iv-sn"><option value="">-- Select sender --</option></select></div>
-      <button class="btn btn-s full lg" id="b-inv" onclick="sendInv()">📧 SEND INVOICE TO CUSTOMER</button>
-     </div>
-     <div><div class="ct mb8">Live Preview</div><div id="inv-p"></div></div>
-    </div>
-   </div>
-
    <!-- ────────────── ADMIN ────────────── -->
    <div id="p-adm" class="pg">
     <div class="ph"><h1>🛡 Admin Panel</h1><p>Manage access keys, stats and accounts — Raja only</p></div>
@@ -878,7 +897,7 @@ const S={
   camp:  JSON.parse(ls('bm_c') ||'[]'),
   sched: JSON.parse(ls('bm_sc')||'[]'),
   sets:  JSON.parse(ls('bm_st')||JSON.stringify({aiS:true,spam:true,rot:true,pers:true,bnc:true,trk:true,unsub:true,otk:false,ctk:false})),
-  cur:null,plan:null,rot:true,send:false,invId:iid(),
+  cur:null,plan:null,rot:true,send:false,invId:iid(),attachments:[],csvData:null,
   ts: ls('bm_td')===today?parseInt(ls('bm_ts')||'0'):0,
 };
 if(ls('bm_td')!==today){ss('bm_td',today);ss('bm_ts','0')}
@@ -945,7 +964,7 @@ function nav(id){
   document.querySelectorAll('.ni,.t-btn').forEach(n=>n.classList.remove('on'));
   $I('p-'+id)?.classList.add('on');
   document.querySelectorAll('[data-p="'+id+'"]').forEach(el=>el.classList.add('on'));
-  ({dash:rDash,smtp:rSMTP,camp:rCamp,sched:rSched,set:rSet,adm:rAdm,inv:()=>{updInv();fillInvS()}})[id]?.();
+  ({dash:rDash,smtp:rSMTP,camp:rCamp,sched:rSched,set:rSet,adm:rAdm})[id]?.();
 }
 
 /* ═══════════════════════════════════════════
@@ -1015,7 +1034,7 @@ function addSMTP(){
   const c=bldSMTP();
   if(!c.email){toast('Email required','e');return}
   if(!c.label){toast('Label required','e');return}
-  S.smtp.push(c);sv('bm_s',S.smtp);rSMTP();rDSenders();fillInvS();updSum();
+  S.smtp.push(c);sv('bm_s',S.smtp);rSMTP();rDSenders();updSum();
   ['st-l','st-e','st-p','st-a','st-h'].forEach(id=>{const e=$I(id);if(e)e.value=''});
   $I('st-lm').value='500';$I('st-tr').innerHTML='';
   toast('Added: '+c.label,'s');
@@ -1039,7 +1058,7 @@ function rSMTP(){
   }).join('')
 }
 function togS(i){S.smtp[i].on=!S.smtp[i].on;sv('bm_s',S.smtp);rSMTP();rDSenders();updSum()}
-function rmS(i){S.smtp.splice(i,1);sv('bm_s',S.smtp);rSMTP();rDSenders();fillInvS();updSum()}
+function rmS(i){S.smtp.splice(i,1);sv('bm_s',S.smtp);rSMTP();rDSenders();updSum()}
 function resetUsed(){S.smtp.forEach(s=>s.used=0);sv('bm_s',S.smtp);rSMTP();rDSenders();toast('Daily counts reset','s')}
 async function testSMTP(){
   const c=bldSMTP();if(!c.email){toast('Enter email first','e');return}
@@ -1057,10 +1076,165 @@ function updSum(){
   tx('sum-s',ac.length);tx('sum-c',ac.reduce((a,s)=>a+Math.max(0,s.lim-s.used),0).toLocaleString());
 }
 function togRot(){S.rot=!S.rot;$I('tg-r').classList.toggle('on',S.rot)}
-async function loadRF(){
-  const i=document.createElement('input');i.type='file';i.accept='.txt,.csv';
-  i.onchange=async()=>{const f=i.files[0];if(!f)return;const t=await f.text();$I('c-recip').value=t;$I('rf-n').textContent=f.name;updRCnt();toast('Loaded: '+f.name,'s')};
-  i.click();
+function clearRecip(){$I('c-recip').value='';$I('rf-n').textContent='';$I('csv-mapper').style.display='none';S.csvData=null;updRCnt();}
+
+/* ── CSV / TXT File Load ── */
+
+async function loadRF(type){
+  const inp=document.createElement('input');
+  inp.type='file';
+  inp.accept = type==='csv' ? '.csv' : '.txt,.csv';
+  inp.onchange=async()=>{
+    const f=inp.files[0]; if(!f) return;
+    const text=await f.text();
+    $I('rf-n').textContent=f.name;
+    const isCsv = f.name.toLowerCase().endsWith('.csv') || type==='csv';
+    if(isCsv){
+      parseAndMapCSV(text, f.name);
+    } else {
+      $I('c-recip').value=text;
+      $I('csv-mapper').style.display='none';
+      S.csvData=null;
+      updRCnt();
+      toast('Loaded: '+f.name,'s');
+    }
+  };
+  inp.click();
+}
+
+function parseAndMapCSV(text, fname){
+  // Detect delimiter: comma, semicolon, or tab
+  const firstLine = text.split('\n')[0];
+  let delim = ',';
+  if((firstLine.match(/;/g)||[]).length > (firstLine.match(/,/g)||[]).length) delim=';';
+  else if((firstLine.match(/\t/g)||[]).length > (firstLine.match(/,/g)||[]).length) delim='\t';
+
+  const rows = text.trim().split('\n').map(r=>r.split(delim).map(c=>c.trim().replace(/^["']|["']$/g,'')));
+  if(rows.length < 2){ toast('CSV has no data rows','e'); return; }
+
+  const headers = rows[0];
+  S.csvData = { headers, rows: rows.slice(1), delim };
+
+  // Populate column dropdowns
+  const emailSel=$I('csv-col-email');
+  const nameSel=$I('csv-col-name');
+  const phoneSel=$I('csv-col-phone');
+
+  emailSel.innerHTML = headers.map((h,i)=>`<option value="${i}">${h}</option>`).join('');
+  nameSel.innerHTML  = '<option value="">— none —</option>'+headers.map((h,i)=>`<option value="${i}">${h}</option>`).join('');
+  phoneSel.innerHTML = '<option value="">— none —</option>'+headers.map((h,i)=>`<option value="${i}">${h}</option>`).join('');
+
+  // Auto-detect email column
+  const eIdx = headers.findIndex(h=>/email|mail|e-mail/i.test(h));
+  if(eIdx>=0) emailSel.value=eIdx;
+
+  // Auto-detect name column
+  const nIdx = headers.findIndex(h=>/name|nombre|full.?name|first.?name/i.test(h));
+  if(nIdx>=0) nameSel.value=nIdx;
+
+  $I('csv-mapper').style.display='';
+  applyCSV();
+  toast('CSV loaded: '+fname+' ('+S.csvData.rows.length+' rows)','s');
+}
+
+function applyCSV(){
+  if(!S.csvData) return;
+  const eIdx=parseInt($I('csv-col-email').value);
+  const nIdx=$I('csv-col-name').value!==''?parseInt($I('csv-col-name').value):-1;
+  const pIdx=$I('csv-col-phone').value!==''?parseInt($I('csv-col-phone').value):-1;
+
+  const lines=[];
+  let skipped=0;
+  S.csvData.rows.forEach(row=>{
+    const email=(row[eIdx]||'').trim();
+    if(!email.includes('@')){skipped++;return;}
+    let parts=email;
+    if(nIdx>=0 && row[nIdx]) parts+=','+(row[nIdx]||'').trim();
+    if(pIdx>=0 && row[pIdx]) parts+=' ['+(row[pIdx]||'').trim()+']';
+    lines.push(parts);
+  });
+
+  $I('c-recip').value=lines.join('\n');
+  const preview=`${lines.length} valid recipients loaded${skipped?' ('+skipped+' skipped — no @)':''}`;
+  $I('csv-preview-txt').textContent=preview;
+  updRCnt();
+}
+
+/* ── Attachments ── */
+
+function fmtSize(bytes){
+  if(bytes<1024) return bytes+'B';
+  if(bytes<1024*1024) return (bytes/1024).toFixed(1)+'KB';
+  return (bytes/1024/1024).toFixed(1)+'MB';
+}
+
+function getFileIcon(type, name){
+  if(type.includes('pdf'))  return '📄';
+  if(type.includes('html') || name.endsWith('.html')) return '🌐';
+  if(type.includes('image')) return '🖼️';
+  if(type.includes('word') || name.endsWith('.doc') || name.endsWith('.docx')) return '📝';
+  if(type.includes('excel') || name.endsWith('.xls') || name.endsWith('.xlsx')) return '📊';
+  if(type.includes('zip') || type.includes('compressed')) return '🗜️';
+  return '📎';
+}
+
+async function addAttachment(){
+  const inp=document.createElement('input');
+  inp.type='file';
+  inp.multiple=true;
+  inp.accept='.pdf,.html,.htm,.png,.jpg,.jpeg,.gif,.webp,.doc,.docx,.xls,.xlsx,.csv,.txt,.zip,.mp4,.mp3,*';
+  inp.onchange=async()=>{
+    const files=Array.from(inp.files);
+    let totalSize=S.attachments.reduce((a,f)=>a+f.size,0);
+    for(const f of files){
+      totalSize+=f.size;
+      if(totalSize>15*1024*1024){ toast('Total attachments exceed 15MB limit','e'); break; }
+      if(S.attachments.find(a=>a.name===f.name)){ toast('File already added: '+f.name,'e'); continue; }
+      // Read as base64
+      const b64=await new Promise(res=>{
+        const r=new FileReader();
+        r.onload=()=>res(r.result.split(',')[1]);
+        r.readAsDataURL(f);
+      });
+      S.attachments.push({name:f.name, size:f.size, type:f.type||'application/octet-stream', data:b64});
+    }
+    renderAttachments();
+    toast(files.length+' file'+(files.length>1?'s':'')+' attached','s');
+  };
+  inp.click();
+}
+
+function removeAttachment(idx){
+  S.attachments.splice(idx,1);
+  renderAttachments();
+}
+
+function renderAttachments(){
+  const listEl=$I('attach-list');
+  const hintEl=$I('attach-hint');
+  const itemsEl=$I('attach-items');
+
+  if(!S.attachments.length){
+    listEl.style.display='none';
+    hintEl.innerHTML='No attachments yet. Click <b>+ Add File</b> to attach PDF, HTML, PNG, JPG, or any file type.';
+    hintEl.className='ib';
+    return;
+  }
+
+  listEl.style.display='';
+  const totalSize=S.attachments.reduce((a,f)=>a+f.size,0);
+  hintEl.innerHTML=`<b>${S.attachments.length} file${S.attachments.length>1?'s':''}</b> attached · Total: ${fmtSize(totalSize)}`;
+  hintEl.className='gb';
+
+  itemsEl.innerHTML=S.attachments.map((f,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--bd2);border-radius:8px;padding:9px 13px;margin-bottom:6px">
+      <span style="font-size:20px;flex-shrink:0">${getFileIcon(f.type,f.name)}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(f.name)}</div>
+        <div style="font-size:11px;color:var(--mt)">${fmtSize(f.size)} · ${f.type||'unknown'}</div>
+      </div>
+      <button class="btn btn-d sm" onclick="removeAttachment(${i})" style="flex-shrink:0">✕</button>
+    </div>`).join('');
 }
 async function aiSubj(){
   const b=$I('b-ais');b.textContent='...';b.disabled=true;
@@ -1115,7 +1289,7 @@ async function send(){
   vi('prog-w',true);$I('slog').innerHTML='';
   tx('r0',0);tx('r1',0);tx('r2',can);
   let sent=0,fail=0,ci=0;const uc={};ac.forEach(x=>{uc[x.id]=x.used});
-  addLog('🚀 Campaign: '+can+' recipients · '+ac.length+' senders · '+PLANS[S.plan]?.name+' plan','i');
+  addLog('🚀 Campaign: '+can+' recipients · '+ac.length+' senders · '+PLANS[S.plan]?.name+' plan'+(S.attachments.length?' · 📎 '+S.attachments.length+' attachment'+(S.attachments.length>1?'s':''):''),'i');
   if(can<recs.length)addLog('⚠️ Capped at '+can+' (daily limit: '+lm.toLocaleString()+')','w');
   addLog('Auto-rotate: '+(S.rot?'ON':'OFF'),'i');
   for(let i=0;i<can;i++){
@@ -1203,48 +1377,6 @@ function rSet(){
 function togSet(k){S.sets[k]=!S.sets[k];$I('tg-'+k)?.classList.toggle('on',S.sets[k]);sv('bm_st',S.sets)}
 
 /* ═══════════════════════════════════════════
-   INVOICE
-═══════════════════════════════════════════ */
-function updInv(){
-  const d={id:S.invId,em:$I('iv-em').value.trim(),nm:$I('iv-nm').value.trim(),pr:$I('iv-pr').value.trim(),am:$I('iv-am').value.trim(),cu:$I('iv-cu').value,pm:$I('iv-pm').value,bt:$I('iv-bt').value.trim(),tf:$I('iv-tf').value.trim()};
-  const ds=new Date().toLocaleDateString('en-AU',{day:'2-digit',month:'long',year:'numeric'});
-  const pp=(d.pm==='paypal'||d.pm==='both')?'<div style="background:#e8f0fe;border-radius:6px;padding:9px 13px;margin-bottom:8px;font-size:12px;">💳 <b>PayPal:</b> paypal.me/bulkmailerpro</div>':'';
-  const btc=(d.pm==='btc'||d.pm==='both')?'<div style="background:#fff8e1;border-radius:6px;padding:9px 13px;margin-bottom:8px;font-size:12px;">₿ <b>Bitcoin:</b> <code style="font-size:11px">'+(esc(d.bt)||'Enter address')+'</code></div>':'';
-  $I('inv-p').innerHTML=`
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
-    <div><div style="font-weight:900;font-size:20px;color:#0044cc;letter-spacing:2px;font-family:'Syne',sans-serif">BulkMailer Pro</div><div style="color:#888;font-size:11px">Professional Email Marketing</div><div style="color:#888;font-size:11px">support@bulkmailerpro.com</div>${d.tf?'<div style="color:#333;font-size:11px;margin-top:4px"><b>TFN:</b> '+esc(d.tf)+'</div>':''}</div>
-    <div style="text-align:right"><div style="font-weight:900;font-size:18px;letter-spacing:2px">INVOICE</div><div style="color:#888;font-size:11px">${d.id}</div><div style="color:#888;font-size:11px">${ds}</div></div>
-  </div>
-  <div style="display:flex;justify-content:space-between;border-top:2px solid #0044cc;padding-top:14px;margin-bottom:16px">
-    <div><div style="font-size:9px;color:#999;font-weight:700;letter-spacing:1.5px;margin-bottom:4px">FROM</div><div style="font-weight:700">BulkMailer Pro</div><div style="color:#666;font-size:12px">Developer: ${C.DEV}</div></div>
-    <div style="text-align:right"><div style="font-size:9px;color:#999;font-weight:700;letter-spacing:1.5px;margin-bottom:4px">BILL TO</div><div style="font-weight:700">${esc(d.nm)||'Customer Name'}</div><div style="color:#0044cc;font-size:12px">${esc(d.em)||'customer@email.com'}</div></div>
-  </div>
-  <table style="width:100%;border-collapse:collapse;margin-bottom:16px"><thead><tr style="background:#f0f4ff"><th style="padding:9px 13px;text-align:left;font-size:10px;color:#666;letter-spacing:1px">DESCRIPTION</th><th style="padding:9px 13px;text-align:right;font-size:10px;color:#666;letter-spacing:1px">AMOUNT</th></tr></thead>
-  <tbody><tr><td style="padding:12px;border-bottom:1px solid #eee;font-size:13px">${esc(d.pr)}</td><td style="padding:12px;border-bottom:1px solid #eee;text-align:right;font-weight:700">${esc(d.cu)} $${esc(d.am)}</td></tr></tbody>
-  <tfoot><tr style="background:#f0f4ff"><td style="padding:11px 13px;font-weight:900">TOTAL DUE</td><td style="padding:11px 13px;text-align:right;font-weight:900;color:#0044cc;font-size:17px">${esc(d.cu)} $${esc(d.am)}</td></tr></tfoot></table>
-  ${pp}${btc}
-  <div style="background:#fff0f0;border-radius:6px;padding:9px 13px;font-size:12px;color:#c00;margin-bottom:10px">❓ Issues? Contact: <b>support@bulkmailerpro.com</b> · WhatsApp ${C.DEV}</div>
-  <div style="text-align:center;color:#bbb;font-size:10px;border-top:1px solid #eee;padding-top:10px">BulkMailer Pro · Developer: ${C.DEV} · Automated Invoice System</div>`;
-}
-function fillInvS(){const s=$I('iv-sn');s.innerHTML='<option value="">-- Select sender --</option>'+S.smtp.map((x,i)=>`<option value="${i}">${esc(x.label)} (${esc(x.email)})</option>`).join('')}
-async function sendInv(){
-  const si=$I('iv-sn').value,em=$I('iv-em').value.trim();
-  if(!em){toast('Customer email required','e');return}
-  if(si===''){toast('Select a sender','e');return}
-  const b=$I('b-inv');b.textContent='⏳ Sending...';b.disabled=true;
-  await sl(1600);toast('Invoice sent to '+em,'s');b.textContent='✅ SENT!';
-  S.invId=iid();updInv();
-  setTimeout(()=>{b.textContent='📧 SEND INVOICE TO CUSTOMER';b.disabled=false},3000);
-}
-async function ldTFN(){
-  const i=document.createElement('input');i.type='file';i.accept='.txt';
-  i.onchange=async()=>{const f=i.files[0];if(!f)return;const t=await f.text();const m=t.match(/TFN[:\s]*([0-9 ]{8,12})/i)||t.match(/([0-9]{3}[\s-]?[0-9]{3}[\s-]?[0-9]{3})/);const tfn=m?m[1].trim():t.split('\n')[0].trim();$I('iv-tf').value=tfn;$I('tfn-f').textContent=f.name;updInv();toast('TFN: '+tfn,'s')};
-  i.click();
-}
-['iv-em','iv-nm','iv-pr','iv-am','iv-cu','iv-tf','iv-bt'].forEach(id=>document.addEventListener('input',e=>{if(e.target.id===id)updInv()}));
-document.addEventListener('change',e=>{if(e.target.id==='iv-pm'){vi('iv-bw',e.target.value==='btc'||e.target.value==='both');updInv()}if(e.target.id==='iv-cu')updInv()});
-
-/* ═══════════════════════════════════════════
    ADMIN
 ═══════════════════════════════════════════ */
 let admIn=false;
@@ -1291,7 +1423,12 @@ function initApp(){
   $I('c-recip')?.addEventListener('input',updRCnt);
   $I('adm-pw')?.addEventListener('keydown',e=>{if(e.key==='Enter')admLogin()});
   $I('g-inp')?.addEventListener('input',()=>$I('g-inp').value=$I('g-inp').value.toUpperCase());
-  rSMTP();rDash();rSet();rCamp();rSched();fillInvS();updSum();updRCnt();updInv();stChange();
+    rSMTP();rDash();rSet();rCamp();rSched();updSum();updRCnt();
+  // set default due date to 7 days from now
+  const dd=new Date();dd.setDate(dd.getDate()+7);
+  const dueFmt=dd.toISOString().split('T')[0];
+  const el=$I('iv-due');if(el)el.value=dueFmt;
+  stChange();
 }
 document.addEventListener('DOMContentLoaded',initGate);
 </script>
