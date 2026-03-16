@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BulkMailer Pro — by Raja</title>
+  <meta name="description" content="Professional bulk email marketing platform by Raja">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================================================
+     KEY GATE
+     ================================================ -->
+<div id="key-gate">
+  <div class="gate-card">
+
+    <div class="gate-logo">✉</div>
+    <div class="gate-title">BulkMailer Pro</div>
+    <div class="gate-sub">Professional bulk email marketing platform.<br>Enter your access key to continue.</div>
+
+    <input class="gate-input" id="gate-input" type="text"
+      placeholder="XXXX-XXXX-XXXX" maxlength="20"
+      autocomplete="off" spellcheck="false">
+    <div class="gate-error" id="gate-error"></div>
+
+    <button class="gate-btn" onclick="submitKey()">🔓 Unlock Access</button>
+
+    <div class="gate-div"><span>Don't have a key?</span></div>
+
+    <button class="wa-btn" onclick="openWA()">
+      <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Chat Raja on WhatsApp — Get Your Key
+    </button>
+
+    <!-- Pricing Plans -->
+    <div class="gate-plans-title">Available Plans — Daily Based Pricing</div>
+    <div class="plan-grid">
+      <div class="plan-c">
+        <div class="plan-name" style="color:var(--mt);">Basic</div>
+        <div class="plan-price">$10<span>/day</span></div>
+        <div class="plan-feat">✓ 10,000 emails/day<br>✓ Without stuff<br>✓ All SMTP support</div>
+      </div>
+      <div class="plan-c hot">
+        <div class="plan-name" style="color:var(--cyan);">Pro — Popular</div>
+        <div class="plan-price" style="color:var(--cyan);">$40<span>/day</span></div>
+        <div class="plan-feat">✓ 10,000 emails/day<br>✓ With stuff included<br>✓ Priority support</div>
+      </div>
+      <div class="plan-c ent">
+        <div class="plan-name" style="color:var(--gold);">Enterprise</div>
+        <div class="plan-price" style="color:var(--gold);">DM<span> Raja</span></div>
+        <div class="plan-feat">✓ Custom volume<br>✓ Send more details<br>✓ Full automation</div>
+      </div>
+    </div>
+    <div class="gate-more">Want to send more than 10K? DM Raja for custom pricing 📩</div>
+    <div class="gate-credit">Built by <a href="#" onclick="openWA();return false;">Raja</a> &nbsp;·&nbsp; v2.0.0</div>
+
+  </div>
+</div>
+
+<!-- ================================================
+     MAIN APP
+     ================================================ -->
+<div id="app-root" style="display:none;flex-direction:column;min-height:100vh;">
+
+  <!-- TOPBAR -->
+  <header id="topbar">
+    <a class="tlogo" href="#" onclick="showPage('dashboard');return false;">
+      <div class="tlogo-icon">✉</div>
+      <span class="tlogo-txt">BulkMailer <span>Pro</span></span>
+    </a>
+
+    <nav class="tnav">
+      <button class="tnav-btn active" data-page="dashboard">Dashboard</button>
+      <button class="tnav-btn" data-page="compose">Compose</button>
+      <button class="tnav-btn" data-page="schedules">Schedules</button>
+      <button class="tnav-btn" data-page="campaigns">Campaigns</button>
+      <button class="tnav-btn" data-page="smtp">SMTP Config</button>
+      <button class="tnav-btn" data-page="pricing">Pricing</button>
+      <button class="tnav-btn" data-page="invoice">Invoice</button>
+      <button class="tnav-btn" data-page="admin">⚙ Admin</button>
+    </nav>
+
+    <div class="tsp"></div>
+    <div class="live-b"><div class="live-dot"></div>LIVE</div>
+
+    <div class="tuser" style="margin-left:10px;">
+      <div class="tuser-av">🔑</div>
+      <div>
+        <div class="tuser-key" id="t-key">KEY</div>
+        <div class="tuser-plan" id="t-plan">PLAN</div>
+      </div>
+    </div>
+  </header>
+
+  <div id="app-wrap">
+
+    <!-- SIDEBAR -->
+    <nav id="sidebar">
+      <div class="ns">Main</div>
+      <div class="ni active" data-page="dashboard"><span class="ni-icon">📊</span>Dashboard</div>
+      <div class="ni" data-page="compose"><span class="ni-icon">✉️</span>Compose &amp; Send</div>
+      <div class="ni" data-page="schedules"><span class="ni-icon">📅</span>Schedules</div>
+      <div class="ni" data-page="campaigns"><span class="ni-icon">📋</span>Campaigns</div>
+
+      <div class="ns">Tools</div>
+      <div class="ni" data-page="smtp"><span class="ni-icon">⚙️</span>SMTP / API Config</div>
+      <div class="ni" data-page="pricing"><span class="ni-icon">💰</span>Pricing</div>
+      <div class="ni" data-page="invoice"><span class="ni-icon">🧾</span>Invoice</div>
+      <div class="ni" data-page="settings"><span class="ni-icon">🔧</span>Settings</div>
+
+      <div class="ns">Admin</div>
+      <div class="ni" data-page="admin"><span class="ni-icon">🛡</span>Admin Panel</div>
+
+      <div class="sb-foot">
+        <div class="sb-dev">by Raja</div>
+        <div class="sb-ver">v2.0.0 · BulkMailer Pro</div>
+        <button class="btn btn-wa btn-full btn-sm mt8" onclick="openWA()" style="font-size:11px;">
+          💬 WhatsApp Raja
+        </button>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main id="main">
+
+      <!-- ============================================
+           DASHBOARD
+           ============================================ -->
+      <div id="page-dashboard" class="page active">
+        <div class="ph">
+          <h1>📊 Dashboard</h1>
+          <p>Your plan: <span id="plan-label" style="color:var(--cyan);font-weight:700;">Basic</span>
+             &nbsp;·&nbsp; Daily limit: <span id="plan-limit-lbl" style="color:var(--green);font-weight:700;">500</span> emails</p>
+        </div>
+
+        <!-- Daily Limit Bar -->
+        <div class="card mb16">
+          <div class="fbet mb8">
+            <div class="ct" style="margin-bottom:0;">Today's Sending Progress</div>
+            <span class="tm" style="font-size:11px;">
+              <span id="day-used">0</span> / <span id="day-max">500</span>
+              sent (<span id="day-pct">0%</span>)
+            </span>
+          </div>
+          <div class="pw" style="height:10px;">
+            <div class="pf green" id="day-bar" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="sg">
+          <div class="sc">
+            <div class="sc-glow" style="background:radial-gradient(circle,rgba(37,99,235,.18),transparent)"></div>
+            <div class="sc-icon">📤</div>
+            <div class="sc-val" style="color:#60a5fa;" id="s-sent">0</div>
+            <div class="sc-lbl">All-Time Sent</div>
+          </div>
+          <div class="sc">
+            <div class="sc-glow" style="background:radial-gradient(circle,rgba(16,185,129,.18),transparent)"></div>
+            <div class="sc-icon">✅</div>
+            <div class="sc-val" style="color:var(--green);" id="s-delivered">0</div>
+            <div class="sc-lbl">Delivered</div>
+          </div>
+          <div class="sc">
+            <div class="sc-glow" style="background:radial-gradient(circle,rgba(245,158,11,.18),transparent)"></div>
+            <div class="sc-icon">👁</div>
+            <div class="sc-val" style="color:var(--yellow);" id="s-opened">0</div>
+            <div class="sc-lbl">Opened (est.)</div>
+          </div>
+          <div class="sc">
+            <div class="sc-glow" style="background:radial-gradient(circle,rgba(139,92,246,.18),transparent)"></div>
+            <div class="sc-icon">🖱</div>
+            <div class="sc-val" style="color:var(--purple);" id="s-clicked">0</div>
+            <div class="sc-lbl">Clicked (est.)</div>
+          </div>
+          <div class="sc">
+            <div class="sc-glow" style="background:radial-gradient(circle,rgba(6,182,212,.18),transparent)"></div>
+            <div class="sc-icon">📅</div>
+            <div class="sc-val" style="color:var(--cyan);" id="s-today">0</div>
+            <div class="sc-lbl">Sent Today</div>
+          </div>
+          <div class="sc">
+            <div class="sc-glow" style="background:radial-gradient(circle,rgba(239,68,68,.18),transparent)"></div>
+            <div class="sc-icon">✗</div>
+            <div class="sc-val" style="color:var(--red);" id="s-failed">0</div>
+            <div class="sc-lbl">Failed</div>
+          </div>
+        </div>
+
+        <div class="g2">
+          <div class="card">
+            <div class="ct">Sender Health</div>
+            <div id="dash-senders"><div class="tm" style="font-size:12px;">No senders configured.</div></div>
+          </div>
+          <div class="card">
+            <div class="ct">7-Day Send Volume</div>
+            <div class="chart" id="dash-chart"></div>
+            <div class="div"></div>
+            <div class="ct">Recent Campaigns</div>
+            <div id="dash-activity"><div class="tm" style="font-size:12px;">No campaigns yet.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           COMPOSE & SEND
+           ============================================ -->
+      <div id="page-compose" class="page">
+        <div class="ph">
+          <h1>✉️ Compose &amp; Send</h1>
+          <p>AI-powered bulk email composer with auto-rotation, personalisation and spam filtering</p>
+        </div>
+        <div class="g2">
+          <!-- Left -->
+          <div class="cl">
+            <div class="card">
+              <div class="ct">Campaign Details</div>
+              <div class="fg">
+                <label class="fl">From Name</label>
+                <input type="text" id="c-from" placeholder="Your Name or Company">
+              </div>
+              <div class="fg">
+                <label class="fl">Subject Line <span class="ap">(AI Spam-Free)</span></label>
+                <div class="fcent g8">
+                  <input type="text" id="c-subject" placeholder="Enter subject or generate →" style="flex:1;">
+                  <button class="btn btn-pu btn-sm" id="btn-ai-subj" onclick="genAiSubject()">🤖 AI</button>
+                </div>
+              </div>
+              <div class="fg">
+                <div class="fbet mb8">
+                  <label class="fl" style="margin-bottom:0;">Message Body <span class="ap">(AI Powered)</span></label>
+                  <button class="btn btn-pu btn-sm" onclick="toggleAiMsgPanel()">🤖 AI Generate</button>
+                </div>
+                <div class="ai-panel" id="ai-panel" style="display:none;">
+                  <div class="ai-pt">AI Message Settings</div>
+                  <div class="fr">
+                    <div class="fg" style="margin-bottom:10px;">
+                      <label class="fl">Email Type</label>
+                      <select id="ai-type">
+                        <option value="promotional">Promotional / Offer</option>
+                        <option value="newsletter">Newsletter</option>
+                        <option value="welcome">Welcome Email</option>
+                        <option value="followup">Follow-up</option>
+                        <option value="announcement">Announcement</option>
+                      </select>
+                    </div>
+                    <div class="fg" style="margin-bottom:10px;">
+                      <label class="fl">Tone</label>
+                      <select id="ai-tone">
+                        <option value="professional">Professional</option>
+                        <option value="friendly">Friendly</option>
+                        <option value="formal">Formal</option>
+                        <option value="casual">Casual</option>
+                        <option value="urgent">Urgent</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="fg" style="margin-bottom:12px;">
+                    <label class="fl">Topic / Key Points</label>
+                    <input type="text" id="ai-topic" placeholder="e.g. 50% off, ends Friday">
+                  </div>
+                  <div class="fcent g8">
+                    <button class="btn btn-pu btn-sm" id="btn-ai-gen" onclick="runAiMsg()">✨ Generate</button>
+                    <button class="btn btn-g btn-sm" onclick="document.getElementById('ai-panel').style.display='none'">Cancel</button>
+                  </div>
+                </div>
+                <div id="ai-loading" style="display:none;">
+                  <div class="ai-panel tc" style="padding:14px;">
+                    <span id="ai-load-txt" style="color:var(--purple);font-size:13px;">🤖 Writing<span class="ai-dots"></span></span>
+                  </div>
+                </div>
+                <textarea id="c-message" rows="9"
+                  placeholder="Hi {name},&#10;&#10;Your message here...&#10;&#10;Best regards,&#10;{from}&#10;&#10;Variables: {name} {email} {from}"></textarea>
+                <div class="ht">Variables: <span class="hl">{name}</span> · <span class="hl">{email}</span> · <span class="hl">{from}</span></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="ct">Recipients</div>
+              <div class="ib mb8">One per line: <b>email@domain.com,Full Name</b> (name optional)</div>
+              <div class="fcent g8 mb8">
+                <button class="btn btn-g btn-sm" onclick="loadRecipFile()">📂 Load .txt File</button>
+                <span id="recip-fname" class="tm" style="font-size:11px;"></span>
+              </div>
+              <textarea id="c-recip" rows="6"
+                placeholder="john@example.com,John Smith&#10;jane@gmail.com,Jane Doe&#10;bob@yahoo.com"></textarea>
+              <div class="ht">Detected: <span id="recip-count" class="tcy fw7">0</span> recipients</div>
+            </div>
+
+            <div class="card">
+              <div class="fcent g12 mb16">
+                <div class="tw" onclick="toggleRotating()">
+                  <div class="tog on" id="tog-rotate"></div>
+                  <span>🔄 Auto-rotate senders at daily limit</span>
+                </div>
+              </div>
+              <div class="ib mb16">
+                Active senders: <b id="sum-senders" class="tcy">0</b> &nbsp;·&nbsp;
+                Capacity: <b id="sum-capacity" class="tg">0</b>/day &nbsp;·&nbsp;
+                Recipients: <b id="sum-recip" class="ty">0</b>
+              </div>
+              <button class="btn btn-c btn-full btn-lg" id="btn-send" onclick="startCampaign()">
+                🚀 SEND CAMPAIGN
+              </button>
+              <div id="prog-wrap" style="display:none;margin-top:12px;">
+                <div class="pw"><div class="pf" id="prog-bar" style="width:0%"></div></div>
+                <div class="tm tc mt4" style="font-size:11px;" id="prog-txt">Preparing...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right -->
+          <div class="cr">
+            <div class="card" style="flex:1;">
+              <div class="fbet mb8">
+                <div class="ct" style="margin-bottom:0;">Live Send Log</div>
+                <button class="btn btn-g btn-sm" onclick="clearLog()">Clear</button>
+              </div>
+              <div class="log" id="send-log"><div class="lemp">Logs appear here during send...</div></div>
+            </div>
+            <div class="card">
+              <div class="ct">Results</div>
+              <div class="g3">
+                <div class="rc"><div class="rv" style="color:var(--green);" id="r-sent">0</div><div class="rl2">Sent</div></div>
+                <div class="rc"><div class="rv" style="color:var(--red);" id="r-failed">0</div><div class="rl2">Failed</div></div>
+                <div class="rc"><div class="rv" style="color:var(--cyan);" id="r-total">0</div><div class="rl2">Total</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           SCHEDULES
+           ============================================ -->
+      <div id="page-schedules" class="page">
+        <div class="ph">
+          <h1>📅 Blast Schedules</h1>
+          <p>Set up daily blasts, weekly blasts, or custom interval campaigns</p>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="ct">Create New Schedule</div>
+            <div class="fg"><label class="fl">Schedule Name</label><input type="text" id="sch-name" placeholder="e.g. Daily Promo Blast"></div>
+            <div class="fg">
+              <label class="fl">Blast Type</label>
+              <select id="sch-type">
+                <option value="daily">Daily Blast (every day)</option>
+                <option value="weekly">Weekly Blast</option>
+                <option value="monthly">Monthly Blast</option>
+                <option value="custom">Custom Interval</option>
+              </select>
+            </div>
+            <div class="fr">
+              <div class="fg"><label class="fl">Send Time</label><input type="time" id="sch-time" value="09:00"></div>
+              <div class="fg narrow"><label class="fl">Every N Days</label><input type="number" id="sch-days" value="1" min="1" max="365"></div>
+            </div>
+            <div class="fg"><label class="fl">Subject</label><input type="text" id="sch-subj" placeholder="Email subject line"></div>
+            <div class="fg">
+              <label class="fl">Recipients (.txt format)</label>
+              <textarea id="sch-recip" rows="4" placeholder="email@domain.com,Name&#10;email2@domain.com"></textarea>
+            </div>
+            <button class="btn btn-p btn-full" onclick="addSchedule()">+ Create Schedule</button>
+          </div>
+          <div>
+            <div class="ct mb8">Active Schedules</div>
+            <div id="sch-list"><div class="tc tm" style="padding:26px;font-size:13px;">No schedules yet.</div></div>
+            <div class="gob mt16">
+              <b>💡 Note:</b> Keep this tab open for schedules to run. For fully automated server-side scheduling, contact Raja on WhatsApp.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           CAMPAIGNS
+           ============================================ -->
+      <div id="page-campaigns" class="page">
+        <div class="ph-row">
+          <div class="ph"><h1>📋 Campaign History</h1><p>All sent campaigns with delivery stats</p></div>
+          <button class="btn btn-p btn-sm" onclick="showPage('compose')">+ New Campaign</button>
+        </div>
+        <div class="card">
+          <table class="dt">
+            <thead><tr>
+              <th>Campaign</th><th>Subject</th><th>Sent</th>
+              <th>Failed</th><th>Delivery%</th><th>Date</th><th>Status</th>
+            </tr></thead>
+            <tbody id="camp-body">
+              <tr><td colspan="7" class="tc tm" style="padding:26px;">No campaigns yet</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============================================
+           SMTP CONFIG
+           ============================================ -->
+      <div id="page-smtp" class="page">
+        <div class="ph">
+          <h1>⚙️ SMTP / API Config</h1>
+          <p>Gmail · Yahoo · iCloud · MS365 · AWS SES · SendGrid · Mailgun · Custom — all supported</p>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="ct">Add New Sender</div>
+            <div class="fg">
+              <label class="fl">Sender Type</label>
+              <select id="smtp-type">
+                <option value="gmail_app">Gmail App Password</option>
+                <option value="gmail_api">Gmail API / OAuth</option>
+                <option value="gmail">Gmail SMTP</option>
+                <option value="yahoo">Yahoo Mail</option>
+                <option value="icloud">iCloud Mail</option>
+                <option value="ms365">Microsoft 365</option>
+                <option value="aws_ses">AWS SES</option>
+                <option value="sendgrid">SendGrid</option>
+                <option value="mailgun">Mailgun</option>
+                <option value="custom">Custom SMTP</option>
+              </select>
+            </div>
+            <div class="fg"><label class="fl">Label / Nickname</label><input type="text" id="smtp-label" placeholder="e.g. Gmail Primary"></div>
+            <div class="fg"><label class="fl">Email Address</label><input type="email" id="smtp-email" placeholder="sender@gmail.com"></div>
+            <div class="fg" id="smtp-pass">
+              <label class="fl">Password / App Password</label>
+              <input type="password" id="smtp-password" placeholder="••••••••••••••••">
+              <div class="ht" id="smtp-pass-help">For Gmail: use 16-char App Password</div>
+            </div>
+            <div class="fg" id="smtp-api" style="display:none;">
+              <label class="fl">API Key</label>
+              <input type="text" id="smtp-apikey" placeholder="AIza...">
+            </div>
+            <div id="smtp-custom" style="display:none;">
+              <div class="fr">
+                <div class="fg"><label class="fl">SMTP Host</label><input type="text" id="smtp-host" placeholder="smtp.example.com"></div>
+                <div class="fg narrow"><label class="fl">Port</label><input type="number" id="smtp-port" value="587"></div>
+              </div>
+            </div>
+            <div class="fg"><label class="fl">Daily Send Limit</label><input type="number" id="smtp-limit" value="500"></div>
+            <div class="ib mb16" id="smtp-detect">Auto-detected: <b id="smtp-host-label" style="color:#fff;">smtp.gmail.com:587 (TLS)</b></div>
+            <div class="fcent g8">
+              <button class="btn btn-g" id="btn-test" onclick="testSMTP()">🔌 Test</button>
+              <button class="btn btn-p" style="flex:1;" onclick="addSmtpConfig()">+ Add Sender</button>
+            </div>
+            <div id="smtp-test-r"></div>
+            <div class="div"></div>
+            <button class="btn btn-g btn-sm btn-full" onclick="resetUsed()">🔄 Reset Daily Used Counts</button>
+          </div>
+          <div>
+            <div class="fbet mb16">
+              <span class="ct" style="margin-bottom:0;">Configured Senders (<span id="s-count">0</span>)</span>
+            </div>
+            <div id="smtp-list"><div class="tc tm" style="padding:26px;font-size:13px;">No senders yet.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           PRICING
+           ============================================ -->
+      <div id="page-pricing" class="page">
+        <div class="ph">
+          <h1>💰 Pricing Plans</h1>
+          <p>Daily-based bulk email blasting. Purchase on WhatsApp — get key instantly.</p>
+        </div>
+        <div class="pg">
+          <div class="pc">
+            <div class="pn">Daily Basic</div>
+            <div class="ppr">$10<span>/day</span></div>
+            <div class="ppe">10,000 emails · Without stuff</div>
+            <div class="pfl">
+              <div class="pf2">10,000 emails per day</div>
+              <div class="pf2">All SMTP providers</div>
+              <div class="pf2">Auto-rotation</div>
+              <div class="pf2">AI subject generator</div>
+              <div class="pf2">Recipient .txt import</div>
+              <div class="pf2">Campaign history</div>
+            </div>
+            <button class="btn btn-g btn-full" onclick="openWA()">💬 Buy on WhatsApp</button>
+          </div>
+
+          <div class="pc hot">
+            <div class="pbdg"><span class="badge bb2">MOST POPULAR</span></div>
+            <div class="pn" style="color:var(--cyan);">Daily Pro</div>
+            <div class="ppr" style="color:var(--cyan);">$40<span>/day</span></div>
+            <div class="ppe">10,000 emails · With stuff included</div>
+            <div class="pfl">
+              <div class="pf2">Everything in Basic</div>
+              <div class="pf2">With stuff (lists + templates)</div>
+              <div class="pf2">AI message body generator</div>
+              <div class="pf2">Blast schedules daily/monthly</div>
+              <div class="pf2">Priority WhatsApp support</div>
+              <div class="pf2">Invoice generation</div>
+            </div>
+            <button class="btn btn-c btn-full" onclick="openWA()">💬 Buy on WhatsApp</button>
+          </div>
+
+          <div class="pc ent">
+            <div class="pbdg"><span class="badge bgo2">CUSTOM</span></div>
+            <div class="pn" style="color:var(--gold);">Enterprise</div>
+            <div class="ppr" style="color:var(--gold);">DM<span> for price</span></div>
+            <div class="ppe">Send more than 10K/day</div>
+            <div class="pfl">
+              <div class="pf2">Custom daily volume</div>
+              <div class="pf2">Dedicated SMTP infra</div>
+              <div class="pf2">Monthly blast automation</div>
+              <div class="pf2">Server-side scheduling</div>
+              <div class="pf2">Custom key management</div>
+              <div class="pf2">24/7 WhatsApp support</div>
+            </div>
+            <button class="btn btn-go btn-full" onclick="openWA()">💬 DM Raja for Details</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="fbet">
+            <div>
+              <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;">Want to send more than 10,000 emails/day?</div>
+              <div class="tm" style="font-size:13px;">Contact Raja on WhatsApp for custom volume pricing and enterprise packages.</div>
+            </div>
+            <button class="btn btn-wa" onclick="openWA()" style="flex-shrink:0;margin-left:20px;">💬 DM for More Details</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           SETTINGS
+           ============================================ -->
+      <div id="page-settings" class="page">
+        <div class="ph"><h1>🔧 Settings</h1><p>Configure sending behaviour and preferences</p></div>
+        <div class="g2">
+          <div class="card">
+            <div class="ct">Sending Options</div>
+            <div id="settings-list"></div>
+          </div>
+          <div class="card">
+            <div class="ct">About</div>
+            <div style="font-size:13px;line-height:1.9;color:var(--tx2);">
+              <div class="fw7 tw2 mb8">BulkMailer Pro v2.0.0</div>
+              <div>Developer: <span class="tcy fw7">Raja</span></div>
+              <div class="mt8">Supported: Gmail · Yahoo · iCloud · MS365 · AWS SES · SendGrid · Mailgun · Custom SMTP</div>
+              <div class="mt16 tcy">support@bulkmailerpro.com</div>
+            </div>
+            <div class="div"></div>
+            <button class="btn btn-wa btn-full mb8" onclick="openWA()">💬 WhatsApp Raja</button>
+            <button class="btn btn-d btn-sm btn-full"
+              onclick="if(confirm('This will reset ALL data including SMTP configs. Are you sure?')){localStorage.clear();sessionStorage.clear();location.reload();}">
+              ⚠️ Reset All Data &amp; Logout
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           INVOICE
+           ============================================ -->
+      <div id="page-invoice" class="page">
+        <div class="ph">
+          <h1>🧾 Invoice Generator</h1>
+          <p>Generate and send professional invoices. PayPal + Bitcoin. TFN auto-extracted from .txt file.</p>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="ct">Invoice Details</div>
+            <div class="fg"><label class="fl">Customer Email</label><input type="email" id="inv-email" placeholder="customer@email.com"></div>
+            <div class="fg"><label class="fl">Customer Name</label><input type="text" id="inv-name" placeholder="John Smith"></div>
+            <div class="fg"><label class="fl">Product / Service</label><input type="text" id="inv-product" value="BulkMailer Pro - Daily Plan"></div>
+            <div class="fr">
+              <div class="fg"><label class="fl">Amount</label><input type="text" id="inv-amount" value="40.00"></div>
+              <div class="fg narrow"><label class="fl">Currency</label>
+                <select id="inv-currency">
+                  <option>USD</option><option>AUD</option><option>EUR</option><option>GBP</option>
+                </select>
+              </div>
+            </div>
+            <div class="fg">
+              <label class="fl">Payment Method</label>
+              <select id="inv-pay">
+                <option value="paypal">PayPal</option>
+                <option value="btc">Bitcoin (BTC)</option>
+                <option value="both">PayPal + Bitcoin</option>
+              </select>
+            </div>
+            <div class="fg" id="inv-btc-wrap" style="display:none;">
+              <label class="fl">BTC Wallet Address</label>
+              <input type="text" id="inv-btc" placeholder="1A1zP1eP5QGefi2...">
+            </div>
+            <div class="div"></div>
+            <div class="fg">
+              <label class="fl">TFN <span class="ac">(auto-extracted from .txt)</span></label>
+              <div class="fcent g8 mb8">
+                <button class="btn btn-g btn-sm" onclick="loadTFNFile()">📂 Load TFN .txt</button>
+                <span id="tfn-fname" class="tm" style="font-size:11px;"></span>
+              </div>
+              <input type="text" id="inv-tfn" placeholder="123 456 789">
+            </div>
+            <div class="fg">
+              <label class="fl">Send Invoice Via (Sender)</label>
+              <select id="inv-sender"><option value="">-- Select sender --</option></select>
+            </div>
+            <button class="btn btn-s btn-full btn-lg" id="btn-inv" onclick="sendInvoice()">
+              📧 SEND INVOICE TO CUSTOMER
+            </button>
+          </div>
+          <div>
+            <div class="ct mb8">Live Preview</div>
+            <div id="inv-prev"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           ADMIN PANEL
+           ============================================ -->
+      <div id="page-admin" class="page">
+        <div class="ph"><h1>🛡 Admin Panel</h1><p>Manage access keys, view stats — Raja only</p></div>
+
+        <!-- Login -->
+        <div id="admin-login" class="card" style="max-width:400px;margin:0 auto;">
+          <div class="ct">Admin Authentication</div>
+          <div class="fg">
+            <label class="fl">Admin Password</label>
+            <input type="password" id="admin-pw" placeholder="Enter admin password">
+          </div>
+          <button class="btn btn-p btn-full" onclick="adminLogin()">🔓 Login as Admin</button>
+          <div class="ib mt8" style="font-size:11px;">Only Raja can access this panel.</div>
+        </div>
+
+        <!-- Panel -->
+        <div id="admin-panel" style="display:none;">
+          <div class="g4 mb16">
+            <div class="sc"><div class="sc-icon">🔑</div><div class="sc-val" style="color:var(--cyan);" id="a-total">0</div><div class="sc-lbl">Total Keys</div></div>
+            <div class="sc"><div class="sc-icon">✅</div><div class="sc-val" style="color:var(--green);" id="a-active">0</div><div class="sc-lbl">Active Keys</div></div>
+            <div class="sc"><div class="sc-icon">📋</div><div class="sc-val" style="color:var(--yellow);" id="a-campaigns">0</div><div class="sc-lbl">Campaigns</div></div>
+            <div class="sc"><div class="sc-icon">📤</div><div class="sc-val" style="color:var(--purple);" id="a-sent">0</div><div class="sc-lbl">Emails Sent</div></div>
+          </div>
+
+          <div class="g2">
+            <div class="card">
+              <div class="ct">Add / Generate Key</div>
+              <div class="fg">
+                <label class="fl">Key Value</label>
+                <div class="fcent g8">
+                  <input type="text" id="nk-val" placeholder="XXXX-XXXX-XXXX" style="flex:1;">
+                  <button class="btn btn-g btn-sm" onclick="genKey()">🎲 Gen</button>
+                </div>
+              </div>
+              <div class="fg"><label class="fl">Label (Customer Name)</label><input type="text" id="nk-label" placeholder="e.g. John Smith"></div>
+              <div class="fr">
+                <div class="fg">
+                  <label class="fl">Plan</label>
+                  <select id="nk-plan">
+                    <option value="basic">Basic (500/day)</option>
+                    <option value="pro">Pro (10K/day)</option>
+                    <option value="ultimate">Ultimate (Unlimited)</option>
+                  </select>
+                </div>
+                <div class="fg">
+                  <label class="fl">Daily Limit</label>
+                  <input type="number" id="nk-limit" value="500">
+                </div>
+              </div>
+              <div class="fg"><label class="fl">Expiry Date</label><input type="date" id="nk-exp" value="2099-12-31"></div>
+              <div class="fcent g8">
+                <button class="btn btn-p" style="flex:1;" onclick="addKey()">+ Add Key</button>
+                <button class="btn btn-g btn-sm" onclick="exportKeys()">📥 CSV</button>
+                <button class="btn btn-d btn-sm" onclick="clearHistory()">🗑 History</button>
+              </div>
+            </div>
+
+            <div>
+              <div class="fbet mb8">
+                <span class="ct" style="margin-bottom:0;">All Keys (<span id="k-count">0</span>)</span>
+              </div>
+              <div id="key-list"><div class="tc tm" style="padding:20px;">No keys</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div><!-- /app-wrap -->
+</div><!-- /app-root -->
+
+<!-- WhatsApp Float Button -->
+<button id="wafloat" onclick="openWA()" title="Chat with Raja on WhatsApp">💬</button>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
