@@ -664,35 +664,126 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
 
    <!-- ────────────── SMTP CONFIG ────────────── -->
    <div id="p-smtp" class="pg">
-    <div class="ph"><h1>⚙️ SMTP / API Config</h1><p>Gmail · Yahoo · iCloud · MS365 · AWS SES · SendGrid · Mailgun · Custom</p></div>
+    <div class="ph"><h1>⚙️ SMTP / API Config</h1><p>Gmail · Yahoo · iCloud · MS365 · AWS SES · SendGrid · Mailgun · Custom — Add one or hundreds at once</p></div>
+
+    <!-- Tab switcher -->
+    <div style="display:flex;gap:6px;margin-bottom:20px;background:var(--bg2);border-radius:12px;padding:5px;width:fit-content;border:1px solid var(--bd)">
+     <button id="stab-single" onclick="sTab('single')" style="padding:8px 20px;border-radius:9px;border:none;font-size:12px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;transition:all .18s">+ Add Single</button>
+     <button id="stab-bulk"   onclick="sTab('bulk')"   style="padding:8px 20px;border-radius:9px;border:none;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--mt);transition:all .18s">⚡ Bulk Import</button>
+    </div>
+
     <div class="g2">
-     <div class="card">
-      <div class="ct">Add New Sender</div>
-      <div class="fg"><label class="fl">Sender Type</label>
-       <select id="st-t">
-        <option value="gmail_app">Gmail App Password</option><option value="gmail_api">Gmail API</option>
-        <option value="gmail">Gmail SMTP</option><option value="yahoo">Yahoo Mail</option>
-        <option value="icloud">iCloud Mail</option><option value="ms365">Microsoft 365</option>
-        <option value="aws_ses">AWS SES</option><option value="sendgrid">SendGrid</option>
-        <option value="mailgun">Mailgun</option><option value="custom">Custom SMTP</option>
-       </select>
-      </div>
-      <div class="fg"><label class="fl">Label</label><input type="text" id="st-l" placeholder="e.g. Gmail Primary"></div>
-      <div class="fg"><label class="fl">Email Address</label><input type="email" id="st-e" placeholder="sender@gmail.com"></div>
-      <div class="fg" id="st-pw"><label class="fl">Password / App Password</label><input type="password" id="st-p" placeholder="••••••••••••••••"><div class="ht" id="st-ph">For Gmail: use 16-char App Password</div></div>
-      <div class="fg" id="st-ak" style="display:none"><label class="fl">API Key</label><input type="text" id="st-a" placeholder="AIza..."></div>
-      <div id="st-cx" style="display:none">
-       <div class="fr"><div class="fg"><label class="fl">SMTP Host</label><input type="text" id="st-h" placeholder="smtp.example.com"></div><div class="fg nw"><label class="fl">Port</label><input type="number" id="st-po" value="587"></div></div>
-      </div>
-      <div class="fg"><label class="fl">Daily Send Limit</label><input type="number" id="st-lm" value="500"></div>
-      <div class="ib mb12" id="st-det">Auto-detected: <b id="st-dh" style="color:#fff">smtp.gmail.com:587 (TLS)</b></div>
-      <div class="fc g8"><button class="btn btn-g" id="b-test" onclick="testSMTP()">🔌 Test</button><button class="btn btn-p" style="flex:1" onclick="addSMTP()">+ Add Sender</button></div>
-      <div id="st-tr"></div>
-      <div class="dv"></div>
-      <button class="btn btn-g sm full" onclick="resetUsed()">🔄 Reset Daily Used Counts</button>
-     </div>
+     <!-- LEFT PANEL -->
      <div>
-      <div class="fb mb12"><span class="ct" style="margin-bottom:0">Configured Senders (<span id="sc">0</span>)</span></div>
+
+      <!-- SINGLE ADD -->
+      <div id="smtp-single" class="card">
+       <div class="ct">Add New Sender</div>
+       <div class="fg"><label class="fl">Sender Type</label>
+        <select id="st-t">
+         <option value="gmail_app">Gmail App Password</option><option value="gmail_api">Gmail API</option>
+         <option value="gmail">Gmail SMTP</option><option value="yahoo">Yahoo Mail</option>
+         <option value="icloud">iCloud Mail</option><option value="ms365">Microsoft 365</option>
+         <option value="aws_ses">AWS SES</option><option value="sendgrid">SendGrid</option>
+         <option value="mailgun">Mailgun</option><option value="custom">Custom SMTP</option>
+        </select>
+       </div>
+       <div class="fg"><label class="fl">Label</label><input type="text" id="st-l" placeholder="e.g. Gmail Primary"></div>
+       <div class="fg"><label class="fl">Email Address</label><input type="email" id="st-e" placeholder="sender@gmail.com"></div>
+       <div class="fg" id="st-pw"><label class="fl">Password / App Password</label><input type="password" id="st-p" placeholder="••••••••••••••••"><div class="ht" id="st-ph">For Gmail: use 16-char App Password</div></div>
+       <div class="fg" id="st-ak" style="display:none"><label class="fl">API Key</label><input type="text" id="st-a" placeholder="AIza..."></div>
+       <div id="st-cx" style="display:none">
+        <div class="fr"><div class="fg"><label class="fl">SMTP Host</label><input type="text" id="st-h" placeholder="smtp.example.com"></div><div class="fg nw"><label class="fl">Port</label><input type="number" id="st-po" value="587"></div></div>
+       </div>
+       <div class="fg"><label class="fl">Daily Send Limit</label><input type="number" id="st-lm" value="500"></div>
+       <div class="ib mb12" id="st-det">Auto-detected: <b id="st-dh" style="color:#fff">smtp.gmail.com:587 (TLS)</b></div>
+       <div class="fc g8"><button class="btn btn-g" id="b-test" onclick="testSMTP()">🔌 Test</button><button class="btn btn-p" style="flex:1" onclick="addSMTP()">+ Add Sender</button></div>
+       <div id="st-tr"></div>
+       <div class="dv"></div>
+       <button class="btn btn-g sm full" onclick="resetUsed()">🔄 Reset Daily Used Counts</button>
+      </div>
+
+      <!-- BULK IMPORT -->
+      <div id="smtp-bulk" class="card" style="display:none">
+       <div class="ct">Bulk Import Senders</div>
+
+       <div class="ib mb12">
+        Paste multiple senders — one per line. Supports any mix of Gmail App Pass, Gmail API, SMTP credentials.<br>
+        <b>Auto-detects type</b> from email domain.
+       </div>
+
+       <!-- Format selector -->
+       <div class="fg">
+        <label class="fl">Paste Format</label>
+        <select id="bulk-fmt" onchange="updBulkHint()">
+         <option value="email_pass">email:password (Gmail App Pass / SMTP)</option>
+         <option value="email_pass_limit">email:password:dailyLimit</option>
+         <option value="email_pass_host">email:password:host:port</option>
+         <option value="email_pass_host_limit">email:password:host:port:dailyLimit</option>
+         <option value="api_key">email:apiKey (Gmail API / SendGrid)</option>
+         <option value="csv">CSV — email,password,limit,label</option>
+         <option value="json">JSON array</option>
+        </select>
+       </div>
+
+       <!-- Live format hint -->
+       <div class="wb mb12" id="bulk-hint" style="font-family:monospace;font-size:12px;line-height:1.8">
+        user@gmail.com:abcd efgh ijkl mnop<br>
+        user2@gmail.com:wxyz abcd efgh ijkl
+       </div>
+
+       <div class="fg">
+        <div class="fb mb8">
+         <label class="fl" style="margin-bottom:0">Paste Sender Data</label>
+         <div class="fc g8">
+          <button class="btn btn-g sm" onclick="loadBulkFile()">📂 Load File</button>
+          <button class="btn btn-g sm" onclick="$I('bulk-txt').value='';updBulkPreview()">Clear</button>
+         </div>
+        </div>
+        <textarea id="bulk-txt" rows="10" placeholder="Paste your senders here..." oninput="updBulkPreview()" style="font-family:monospace;font-size:12px"></textarea>
+       </div>
+
+       <!-- Default limit for bulk -->
+       <div class="fr g8 mb12">
+        <div class="fg">
+         <label class="fl">Default Daily Limit (if not specified)</label>
+         <input type="number" id="bulk-lim" value="500" oninput="updBulkPreview()">
+        </div>
+        <div class="fg">
+         <label class="fl">Default Type (if not specified)</label>
+         <select id="bulk-type">
+          <option value="gmail_app">Gmail App Password</option>
+          <option value="gmail_api">Gmail API</option>
+          <option value="yahoo">Yahoo Mail</option>
+          <option value="ms365">Microsoft 365</option>
+          <option value="aws_ses">AWS SES</option>
+          <option value="custom">Custom SMTP</option>
+         </select>
+        </div>
+       </div>
+
+       <!-- Preview -->
+       <div id="bulk-preview" style="display:none">
+        <div class="ct mb8">Preview (<span id="bulk-cnt">0</span> senders parsed)</div>
+        <div id="bulk-prev-list" style="max-height:200px;overflow-y:auto;margin-bottom:12px"></div>
+        <div id="bulk-errors" style="display:none" class="db mb12"></div>
+       </div>
+
+       <button class="btn btn-s full lg" id="b-bulk-add" onclick="importBulk()" disabled>⚡ Import All Senders</button>
+       <div id="bulk-result" style="margin-top:10px;font-size:12px"></div>
+      </div>
+
+     </div>
+
+     <!-- RIGHT: Sender list -->
+     <div>
+      <div class="fb mb12">
+       <span class="ct" style="margin-bottom:0">Configured Senders (<span id="sc">0</span>)</span>
+       <div class="fc g8">
+        <button class="btn btn-g sm" onclick="exportSMTP()">📥 Export</button>
+        <button class="btn btn-d sm" onclick="clearAllSMTP()">🗑 Clear All</button>
+       </div>
+      </div>
       <div id="smtp-l"><div class="tc tm" style="padding:26px;font-size:13px">No senders yet.</div></div>
      </div>
     </div>
@@ -1065,6 +1156,182 @@ async function testSMTP(){
   const b=$I('b-test');b.textContent='⏳...';b.disabled=true;
   await sl(1400);b.textContent='🔌 Test';b.disabled=false;
   $I('st-tr').innerHTML='<div class="wb mt8">⚠️ Live test needs backend. Config validated on first real send.</div>';
+}
+
+/* ── SMTP Tab switcher ── */
+function sTab(t){
+  ['single','bulk'].forEach(x=>{
+    const btn=$I('stab-'+x), panel=$I('smtp-'+x);
+    if(x===t){btn.style.background='linear-gradient(135deg,var(--blue),var(--cyan))';btn.style.color='#fff';btn.style.fontWeight='700';panel.style.display='';}
+    else{btn.style.background='transparent';btn.style.color='var(--mt)';btn.style.fontWeight='600';panel.style.display='none';}
+  });
+}
+
+/* ── Export / Clear ── */
+function exportSMTP(){
+  const rows=S.smtp.map(s=>`${s.email},${s.pass||s.apiKey||''},${s.lim},${s.label},${s.type}`).join('\n');
+  const blob=new Blob(['email,password,limit,label,type\n'+rows],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='smtp_senders.csv';a.click();
+  toast('Exported '+S.smtp.length+' senders','s');
+}
+function clearAllSMTP(){
+  if(!confirm('Delete ALL configured senders?')) return;
+  S.smtp=[];sv('bm_s',S.smtp);rSMTP();rDSenders();updSum();toast('All senders cleared','s');
+}
+
+/* ── Bulk Import ── */
+const BULK_HINTS={
+  email_pass:     'user@gmail.com:abcd efgh ijkl mnop\nuser2@yahoo.com:mypassword123',
+  email_pass_limit:'user@gmail.com:apppassword:500\nuser2@gmail.com:apppassword:1000',
+  email_pass_host: 'user@example.com:password:smtp.example.com:587\nuser2@example.com:pass:mail.host.com:465',
+  email_pass_host_limit:'user@example.com:password:smtp.example.com:587:1000',
+  api_key:         'user@gmail.com:AIzaSyXXXXXXXXXXXXXXXXX\napiuser@sendgrid.com:SG.XXXXXXXXXXXXXXXX',
+  csv:             'user@gmail.com,apppassword,500,Gmail Account 1\nuser2@gmail.com,apppassword2,500,Gmail Account 2',
+  json:            '[{"email":"u@gmail.com","password":"pass","limit":500},{"email":"u2@gmail.com","password":"pass2","limit":500}]',
+};
+
+function updBulkHint(){
+  const fmt=$I('bulk-fmt').value;
+  $I('bulk-hint').innerHTML=BULK_HINTS[fmt]?.replace(/\n/g,'<br>')||'';
+  updBulkPreview();
+}
+
+function autoDetectType(email){
+  const d=email.split('@')[1]?.toLowerCase()||'';
+  if(d.includes('gmail'))   return 'gmail_app';
+  if(d.includes('yahoo'))   return 'yahoo';
+  if(d.includes('hotmail')||d.includes('outlook')||d.includes('live')) return 'ms365';
+  if(d.includes('icloud')||d.includes('me.com')||d.includes('mac.com')) return 'icloud';
+  if(d.includes('sendgrid')) return 'sendgrid';
+  if(d.includes('mailgun'))  return 'mailgun';
+  return $I('bulk-type').value||'custom';
+}
+
+function parseBulkLine(line, fmt, defLim){
+  line=line.trim();
+  if(!line||line.startsWith('#')||line.startsWith('//')) return null;
+  let email='',pass='',host='',port='587',lim=defLim,label='',type='',apiKey='';
+
+  if(fmt==='json') return null; // handled separately
+
+  if(fmt==='csv'){
+    const p=line.split(',').map(x=>x.trim().replace(/^["']|["']$/g,''));
+    email=p[0]||''; pass=p[1]||''; lim=parseInt(p[2])||defLim; label=p[3]||'';
+  } else {
+    const sep=line.includes('::')?'::':':';
+    const p=line.split(sep);
+    email=p[0]?.trim()||'';
+    if(fmt==='api_key')         { apiKey=p[1]?.trim()||''; }
+    else if(fmt==='email_pass') { pass=p.slice(1).join(sep).trim(); }
+    else if(fmt==='email_pass_limit') { pass=p[1]?.trim()||''; lim=parseInt(p[2])||defLim; }
+    else if(fmt==='email_pass_host')  { pass=p[1]?.trim()||''; host=p[2]?.trim()||''; port=p[3]?.trim()||'587'; }
+    else if(fmt==='email_pass_host_limit'){ pass=p[1]?.trim()||''; host=p[2]?.trim()||''; port=p[3]?.trim()||'587'; lim=parseInt(p[4])||defLim; }
+  }
+
+  if(!email.includes('@')) return null;
+  type=autoDetectType(email);
+  if(fmt==='api_key') type='gmail_api';
+  if(host) type='custom';
+  label=label||(SMTP_PRE[type]?.label+' — '+email.split('@')[0]);
+
+  return{id:Date.now()+Math.random(),type,label,email,pass,apiKey,
+    host:host||SMTP_PRE[type]?.host||'',port,lim,used:0,on:true};
+}
+
+function parseBulkText(){
+  const txt=$I('bulk-txt').value.trim();
+  const fmt=$I('bulk-fmt').value;
+  const defLim=parseInt($I('bulk-lim').value)||500;
+  if(!txt) return{ok:[],bad:[]};
+
+  if(fmt==='json'){
+    try{
+      const arr=JSON.parse(txt);
+      const ok=arr.map((o,i)=>({
+        id:Date.now()+i,
+        type:autoDetectType(o.email||''),
+        label:o.label||(SMTP_PRE[autoDetectType(o.email||'')]?.label+' — '+(o.email||'').split('@')[0]),
+        email:o.email||'',pass:o.password||o.pass||'',apiKey:o.apiKey||'',
+        host:o.host||'',port:o.port||'587',lim:parseInt(o.limit)||defLim,
+        used:0,on:true
+      })).filter(o=>o.email.includes('@'));
+      return{ok,bad:[]};
+    }catch(e){return{ok:[],bad:['Invalid JSON: '+e.message]};}
+  }
+
+  const lines=txt.split('\n');
+  const ok=[],bad=[];
+  lines.forEach((line,i)=>{
+    if(!line.trim()||line.trim().startsWith('#')) return;
+    const r=parseBulkLine(line,fmt,defLim);
+    if(r) ok.push(r);
+    else if(line.trim()) bad.push(`Line ${i+1}: "${line.trim().slice(0,40)}" — skipped`);
+  });
+  return{ok,bad};
+}
+
+function updBulkPreview(){
+  const {ok,bad}=parseBulkText();
+  const previewEl=$I('bulk-preview');
+  const addBtn=$I('b-bulk-add');
+
+  if(!$I('bulk-txt').value.trim()){previewEl.style.display='none';addBtn.disabled=true;return;}
+
+  previewEl.style.display='';
+  tx('bulk-cnt', ok.length);
+  addBtn.disabled=ok.length===0;
+
+  $I('bulk-prev-list').innerHTML=ok.slice(0,20).map(s=>`
+    <div class="fc g8" style="padding:6px 10px;background:var(--bg2);border-radius:7px;margin-bottom:5px;font-size:11px">
+      <span style="width:9px;height:9px;border-radius:50%;background:var(--green);flex-shrink:0;box-shadow:0 0 5px rgba(16,185,129,.6)"></span>
+      <span class="mono" style="color:var(--cyan);flex-shrink:0">${esc(s.email)}</span>
+      <span style="color:var(--mt)">${SMTP_PRE[s.type]?.label||s.type}</span>
+      <span style="color:var(--green);margin-left:auto">${s.lim.toLocaleString()}/day</span>
+    </div>`).join('')+(ok.length>20?`<div class="tm" style="font-size:11px;padding:4px 10px">...and ${ok.length-20} more</div>`:'');
+
+  const errEl=$I('bulk-errors');
+  if(bad.length){errEl.style.display='';errEl.innerHTML='<b>Skipped:</b><br>'+bad.slice(0,5).map(esc).join('<br>')+(bad.length>5?'<br>...and '+(bad.length-5)+' more':'')}
+  else errEl.style.display='none';
+}
+
+async function loadBulkFile(){
+  const inp=document.createElement('input');inp.type='file';inp.accept='.txt,.csv,.json';
+  inp.onchange=async()=>{
+    const f=inp.files[0];if(!f)return;
+    const t=await f.text();
+    $I('bulk-txt').value=t;
+    // Auto-switch format based on extension
+    if(f.name.endsWith('.json')){$I('bulk-fmt').value='json';}
+    else if(f.name.endsWith('.csv')){$I('bulk-fmt').value='csv';}
+    updBulkHint();updBulkPreview();
+    toast('Loaded: '+f.name,'s');
+  };
+  inp.click();
+}
+
+async function importBulk(){
+  const{ok,bad}=parseBulkText();
+  if(!ok.length){toast('No valid senders to import','e');return;}
+
+  const btn=$I('b-bulk-add');
+  btn.disabled=true;btn.textContent='⏳ Importing...';
+
+  // Skip duplicates
+  let added=0,skipped=0;
+  ok.forEach(s=>{
+    if(S.smtp.find(x=>x.email===s.email)){skipped++;return;}
+    S.smtp.push(s);added++;
+  });
+  sv('bm_s',S.smtp);rSMTP();rDSenders();updSum();
+
+  const msg=`✓ Imported ${added} sender${added!==1?'s':''}${skipped?' ('+skipped+' duplicates skipped)':''}`;
+  $I('bulk-result').innerHTML=`<div class="gb">${msg}</div>`;
+  toast(msg,'s');
+  btn.textContent='⚡ Import All Senders';btn.disabled=false;
+
+  // Clear textarea after successful import
+  $I('bulk-txt').value='';
+  $I('bulk-preview').style.display='none';
 }
 
 /* ═══════════════════════════════════════════
