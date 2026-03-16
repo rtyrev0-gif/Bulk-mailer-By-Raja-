@@ -6,7 +6,7 @@
 
 /* ── CONFIG: Edit before deploying ── */
 const CFG = {
-  WA_NUMBER:      '919876543210',        // Your WhatsApp number (country code + number, no +)
+  WA_NUMBER:      '919508919048',        // Your WhatsApp number (country code + number, no +)
   WA_MSG:         'Hi Raja, I want to buy a BulkMailer Pro access key. Please help!',
   ADMIN_PASS:     'Raja@Admin2024',      // Admin panel password - CHANGE THIS
   DEVELOPER:      'Raja',
